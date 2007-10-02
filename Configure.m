@@ -16,6 +16,7 @@
 {
     NSUserDefaults *nsu=[NSUserDefaults standardUserDefaults];
 	[nsu setObject:[Template stringValue] forKey:@"MenuDisplayTemplate"];
+    current_template=[[NSString alloc] initWithString:[Template stringValue]];
     [nsu synchronize];
     [OkButton setValue:[NSNumber numberWithBool:NO] forKey:@"enabled"];
 }
