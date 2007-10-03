@@ -17,6 +17,16 @@ static NSStatusItem *statusItem;
 }
 -(id) init
 {
+    //NSArray *nma= ;
+    itunes_info=[NSArray arrayWithObjects:
+        [NSMutableArray arrayWithObjects:@"$title",@"",nil],
+        [NSMutableArray arrayWithObjects:@"$artist",@"",nil],
+        [NSMutableArray arrayWithObjects:@"$album",@"",nil],
+        [NSMutableArray arrayWithObjects:@"$genre",@"",nil],
+        [NSMutableArray arrayWithObjects:@"$time",@"",nil],
+        nil
+        ];
+    [itunes_info retain];
     return self;
 }
 -(BOOL) updateInfo:(NSTimer*)timer
@@ -32,35 +42,39 @@ static NSStatusItem *statusItem;
     [scriptObject release];
    
     if (kAENullEvent!=[returnDescriptor descriptorType] && [returnDescriptor numberOfItems]>0) {
-        NSString *new_title = [[returnDescriptor descriptorAtIndex:1] stringValue];
-        NSString *new_artist = [[returnDescriptor descriptorAtIndex:2] stringValue];
-        NSString *new_album = [[returnDescriptor descriptorAtIndex:3] stringValue];
-        NSString *new_tpl= [[NSUserDefaults standardUserDefaults] stringForKey:@"MenuDisplayTemplate"];
-        
-        if (new_title==nil)  new_title=@"";
-        if (new_artist==nil)  new_artist=@"";
-        if (new_album==nil)  new_album=@"";
-        if (new_tpl==nil)  new_tpl=[Template stringValue];
-        if ([new_title isEqualToString:current_title] 
-            && [new_artist isEqualToString:current_artist] 
-            && [new_album isEqualToString:current_album]
-            && [new_tpl isEqualToString:current_template]) {
-            return NO;
+        //NSEnumerator *itunes_items = [itunes_info objectEnumerator];
+        //NSMutableArray *itunes_item;
+        int current_index;
+        int desc_index;
+        BOOL is_different = NO;
+        //int c = 3;
+        //NSLog(@"%d",[itunes_info count]);
+        NSString *new_str;
+        for (current_index=0;current_index<[itunes_info count];current_index++) {
+            //itunes_item = [itunes_info objectAtIndex:current_index];
+           // new_str=[[NSString alloc] initWithString:[[returnDescriptor descriptorAtIndex:current_index] stringValue]];
+            desc_index=current_index+1;
+            new_str=[[returnDescriptor descriptorAtIndex:desc_index] stringValue];
+            if (new_str==nil)  new_str=@"";
+            if (is_different == NO && [new_str isEqualToString:[[itunes_info objectAtIndex:current_index]objectAtIndex:1]]==NO) {
+                is_different = YES;
+            }
+            [[itunes_info objectAtIndex:current_index]replaceObjectAtIndex:1 withObject:[[NSString alloc] initWithString:new_str]];
         }
-        
-        current_title=[[NSString alloc] initWithString:new_title];
-        current_artist=[[NSString alloc] initWithString:new_artist];
-        current_album=[[NSString alloc] initWithString:new_album];
+        NSString *new_tpl= [[NSUserDefaults standardUserDefaults] stringForKey:@"MenuDisplayTemplate"];
+        if (new_tpl==nil)  new_tpl=[Template stringValue];
+        if (is_different==NO && [new_tpl isEqualToString:current_template]) {
+        	return NO;
+        }
         current_template = [[NSString alloc] initWithString:new_tpl];
         
-        
-        
-        new_tpl = [new_tpl replace:@"$title" with:current_title];
-        new_tpl = [new_tpl replace:@"$artist" with:current_artist];
-        new_tpl = [new_tpl replace:@"$album" with:current_album];
-        
-        //NSLog(@"%@",new_tpl);
+        NSEnumerator *itunes_items = [itunes_info objectEnumerator];
+        id item;
+        while (item = [itunes_items nextObject]) {
+            new_tpl = [new_tpl replace:[item objectAtIndex:0] with:[item objectAtIndex:1]];
+        }
         [statusItem setTitle:new_tpl];
+        NSLog(@"%@",new_tpl);
         return YES;
     }
     return NO;
