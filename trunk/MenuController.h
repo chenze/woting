@@ -6,10 +6,8 @@
 {
     IBOutlet NSMenu *WoTingMenu;
     IBOutlet NSTextField *Template;
+    NSArray *itunes_info;
     NSString *current_template;
-    NSString *current_title;
-    NSString *current_artist;
-    NSString *current_album;
 }
 @end
 @interface NSString(woting)
