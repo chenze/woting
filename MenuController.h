@@ -6,8 +6,9 @@
 {
     IBOutlet NSMenu *WoTingMenu;
     IBOutlet NSTextField *Template;
-    NSArray *itunes_info;
-    NSString *current_template;
+    NSArray *mItunesInfo;
+    NSString *mCurrentTemplate;
+    NSAppleScript	*mScriptObject;
 }
 @end
 @interface NSString(woting)

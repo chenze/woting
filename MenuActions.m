@@ -9,7 +9,7 @@
 
 - (IBAction)homepage:(id)sender
 {
-    NSURL *home_url = [NSURL URLWithString:@"http://www.surfchen.org"];
+    NSURL *home_url = [NSURL URLWithString:@"http://woting.googlecode.com/"];
     [[NSWorkspace alloc] openURL:home_url];
 }
 - (IBAction)config:(id)sender
