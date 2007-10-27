@@ -12,13 +12,13 @@ static NSStatusItem *statusItem;
     [statusItem setEnabled:YES];
     [statusItem setTitle:@"WT"];
     [statusItem setMenu:WoTingMenu];
-    NSTimer *t = [NSTimer scheduledTimerWithTimeInterval:1 target:self selector:@selector(updateInfo:) userInfo:nil repeats:YES];
+    NSTimer *t = [NSTimer scheduledTimerWithTimeInterval:2 target:self selector:@selector(updateInfo:) userInfo:nil repeats:YES];
     [t fire];
 }
 -(id) init
 {
     //NSArray *nma= ;
-    itunes_info=[NSArray arrayWithObjects:
+    mItunesInfo=[NSArray arrayWithObjects:
         [NSMutableArray arrayWithObjects:@"$title",@"",nil],
         [NSMutableArray arrayWithObjects:@"$artist",@"",nil],
         [NSMutableArray arrayWithObjects:@"$album",@"",nil],
@@ -26,49 +26,51 @@ static NSStatusItem *statusItem;
         [NSMutableArray arrayWithObjects:@"$time",@"",nil],
         nil
         ];
-    [itunes_info retain];
+    [mItunesInfo retain];
+    NSDictionary		*errorDict;
+    NSString* path = [[NSBundle mainBundle] pathForResource:@"itunes" ofType:@"scpt" inDirectory:@"Scripts"];
+    NSURL *scriptURL = [[NSURL alloc] initFileURLWithPath:path];
+    mScriptObject = [[NSAppleScript alloc] initWithContentsOfURL:scriptURL error:&errorDict];
     return self;
 }
 -(BOOL) updateInfo:(NSTimer*)timer
 {
     NSDictionary		*errorDict;
     NSAppleEventDescriptor 	*returnDescriptor;
-    NSString* path = [[NSBundle mainBundle] pathForResource:@"itunes" ofType:@"scpt" inDirectory:@"Scripts"];
-    
-    NSURL *scriptURL = [[NSURL alloc] initFileURLWithPath:path];
-    
-    NSAppleScript	*scriptObject = [[NSAppleScript alloc] initWithContentsOfURL:scriptURL error:&errorDict];
-    returnDescriptor=[scriptObject executeAndReturnError: &errorDict];
-    [scriptObject release];
+    returnDescriptor=[mScriptObject executeAndReturnError: &errorDict];
+    //[errorDict release];
+    //[mScriptObject release];
    
     if (kAENullEvent!=[returnDescriptor descriptorType] && [returnDescriptor numberOfItems]>0) {
-        //NSEnumerator *itunes_items = [itunes_info objectEnumerator];
+        //NSEnumerator *itunes_items = [mItunesInfo objectEnumerator];
         //NSMutableArray *itunes_item;
         int current_index;
         int desc_index;
         BOOL is_different = NO;
         //int c = 3;
-        //NSLog(@"%d",[itunes_info count]);
+        //NSLog(@"%d",[mItunesInfo count]);
         NSString *new_str;
-        for (current_index=0;current_index<[itunes_info count];current_index++) {
-            //itunes_item = [itunes_info objectAtIndex:current_index];
+        for (current_index=0;current_index<[mItunesInfo count];current_index++) {
+            //itunes_item = [mItunesInfo objectAtIndex:current_index];
            // new_str=[[NSString alloc] initWithString:[[returnDescriptor descriptorAtIndex:current_index] stringValue]];
             desc_index=current_index+1;
             new_str=[[returnDescriptor descriptorAtIndex:desc_index] stringValue];
             if (new_str==nil)  new_str=@"";
-            if (is_different == NO && [new_str isEqualToString:[[itunes_info objectAtIndex:current_index]objectAtIndex:1]]==NO) {
+            if (is_different == NO && [new_str isEqualToString:[[mItunesInfo objectAtIndex:current_index]objectAtIndex:1]]==NO) {
                 is_different = YES;
             }
-            [[itunes_info objectAtIndex:current_index]replaceObjectAtIndex:1 withObject:[[NSString alloc] initWithString:new_str]];
+            [[mItunesInfo objectAtIndex:current_index]replaceObjectAtIndex:1 withObject:[[NSString alloc] initWithString:new_str]];
         }
+        //[returnDescriptor release];
+        //[new_str release];
         NSString *new_tpl= [[NSUserDefaults standardUserDefaults] stringForKey:@"MenuDisplayTemplate"];
         if (new_tpl==nil)  new_tpl=[Template stringValue];
-        if (is_different==NO && [new_tpl isEqualToString:current_template]) {
+        if (is_different==NO && [new_tpl isEqualToString:mCurrentTemplate]) {
         	return NO;
         }
-        current_template = [[NSString alloc] initWithString:new_tpl];
+        mCurrentTemplate = [[NSString alloc] initWithString:new_tpl];
         
-        NSEnumerator *itunes_items = [itunes_info objectEnumerator];
+        NSEnumerator *itunes_items = [mItunesInfo objectEnumerator];
         id item;
         while (item = [itunes_items nextObject]) {
             new_tpl = [new_tpl replace:[item objectAtIndex:0] with:[item objectAtIndex:1]];
@@ -76,6 +78,8 @@ static NSStatusItem *statusItem;
         [statusItem setTitle:new_tpl];
         NSLog(@"%@",new_tpl);
         return YES;
+    } else {
+        NSLog(@"none\n");
     }
     return NO;
 }

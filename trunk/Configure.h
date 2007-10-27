@@ -7,7 +7,7 @@
     IBOutlet id ConfigureWindow;
     IBOutlet NSTextField *Template;
     IBOutlet NSButton *OkButton;
-    NSString *current_template;
+    NSString *mCurrentTemplate;
 }
 - (IBAction)cancel:(id)sender;
 - (IBAction)ok:(id)sender;

@@ -10,20 +10,20 @@
         [self ok:nil];
     }
    
-    current_template=[[NSString alloc] initWithString:[Template stringValue]];
+    mCurrentTemplate=[[NSString alloc] initWithString:[Template stringValue]];
 }
 -(IBAction)ok:(id)sender
 {
     NSUserDefaults *nsu=[NSUserDefaults standardUserDefaults];
 	[nsu setObject:[Template stringValue] forKey:@"MenuDisplayTemplate"];
-    current_template=[[NSString alloc] initWithString:[Template stringValue]];
+    mCurrentTemplate=[[NSString alloc] initWithString:[Template stringValue]];
     [nsu synchronize];
     [OkButton setValue:[NSNumber numberWithBool:NO] forKey:@"enabled"];
 }
 - (IBAction)cancel:(id)sender
 {
     [ConfigureWindow orderOut:sender];
-    [Template setStringValue:current_template];
+    [Template setStringValue:mCurrentTemplate];
     [OkButton setValue:[NSNumber numberWithBool:NO] forKey:@"enabled"];
 }
 @end
