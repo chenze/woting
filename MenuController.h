@@ -9,7 +9,9 @@
     NSArray *mItunesInfo;
     NSString *mCurrentTemplate;
     NSAppleScript	*mScriptObject;
+	BOOL updating;
 }
+-(BOOL) updateInfo;
 @end
 @interface NSString(woting)
 -(NSString *)replace:(NSString *)string with:(NSString *)string;

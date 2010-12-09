@@ -10,7 +10,7 @@ static NSStatusItem *statusItem;
     [statusItem setHighlightMode:YES];
     [statusItem setMenu:WoTingMenu];
     [statusItem setEnabled:YES];
-    [statusItem setTitle:@"WT"];
+    [statusItem setTitle:@"♫"];
     [statusItem setMenu:WoTingMenu];
     NSTimer *t = [NSTimer scheduledTimerWithTimeInterval:2 target:self selector:@selector(updateInfo:) userInfo:nil repeats:YES];
     [t fire];
@@ -35,9 +35,23 @@ static NSStatusItem *statusItem;
 }
 -(BOOL) updateInfo:(NSTimer*)timer
 {
+	if (updating) {
+		return YES;
+	}
+	updating=TRUE;
+	[self updateInfo];
+	updating=FALSE;
+	return YES;
+}
+-(BOOL) updateInfo
+{
     NSDictionary		*errorDict;
-    NSAppleEventDescriptor 	*returnDescriptor;
+    NSAppleEventDescriptor 	*returnDescriptor=[[NSAppleEventDescriptor alloc] init];
+	//return YES;
     returnDescriptor=[mScriptObject executeAndReturnError: &errorDict];
+	//[returnDescriptor release];
+	//sreturn YES;
+	
     //[errorDict release];
     //[mScriptObject release];
    
@@ -49,6 +63,7 @@ static NSStatusItem *statusItem;
         BOOL is_different = NO;
         //int c = 3;
         //NSLog(@"%d",[mItunesInfo count]);
+		//return YES;
         NSString *new_str;
         for (current_index=0;current_index<[mItunesInfo count];current_index++) {
             //itunes_item = [mItunesInfo objectAtIndex:current_index];
@@ -66,8 +81,11 @@ static NSStatusItem *statusItem;
         NSString *new_tpl= [[NSUserDefaults standardUserDefaults] stringForKey:@"MenuDisplayTemplate"];
         if (new_tpl==nil)  new_tpl=[Template stringValue];
         if (is_different==NO && [new_tpl isEqualToString:mCurrentTemplate]) {
+			//[new_tpl release];
         	return NO;
         }
+		//return YES;
+		[mCurrentTemplate release];
         mCurrentTemplate = [[NSString alloc] initWithString:new_tpl];
         
         NSEnumerator *itunes_items = [mItunesInfo objectEnumerator];
@@ -75,10 +93,13 @@ static NSStatusItem *statusItem;
         while (item = [itunes_items nextObject]) {
             new_tpl = [new_tpl replace:[item objectAtIndex:0] with:[item objectAtIndex:1]];
         }
+		//return;
         [statusItem setTitle:new_tpl];
-        NSLog(@"%@",new_tpl);
+		//[new_tpl release];
+        //NSLog(@"%@",new_tpl);
         return YES;
     } else {
+		[statusItem setTitle:@"♫"];
         NSLog(@"none\n");
     }
     return NO;
@@ -87,7 +108,9 @@ static NSStatusItem *statusItem;
 @implementation NSString(woting)
 -(NSString *)replace:(NSString *)find_str with:(NSString *)replace_str
 {	
-    if (replace_str==nil) replace_str = [NSString string];
+    if (replace_str==nil) {
+		replace_str = [NSString string];
+	}
     NSRange str_range,head_range,find_range;
     unsigned int left_length,current_position=0;
     NSMutableString * buffer=[NSMutableString string];

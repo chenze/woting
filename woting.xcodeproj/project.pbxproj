@@ -32,22 +32,8 @@
 		8D11072B0486CEB800E47090 /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = 089C165CFE840E0CC02AAC07 /* InfoPlist.strings */; };
 		8D11072D0486CEB800E47090 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 29B97316FDCFA39411CA2CEA /* main.m */; settings = {ATTRIBUTES = (); }; };
 		8D11072F0486CEB800E47090 /* Cocoa.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1058C7A1FEA54F0111CA2CBB /* Cocoa.framework */; };
+		ED00D6A412AFA42700B7A527 /* SCTextField.m in Sources */ = {isa = PBXBuildFile; fileRef = ED00D6A312AFA42700B7A527 /* SCTextField.m */; };
 /* End PBXBuildFile section */
-
-/* Begin PBXBuildStyle section */
-		4A9504CCFFE6A4B311CA0CBA /* Debug */ = {
-			isa = PBXBuildStyle;
-			buildSettings = {
-			};
-			name = Debug;
-		};
-		4A9504CDFFE6A4B311CA0CBA /* Release */ = {
-			isa = PBXBuildStyle;
-			buildSettings = {
-			};
-			name = Release;
-		};
-/* End PBXBuildStyle section */
 
 /* Begin PBXCopyFilesBuildPhase section */
 		112CC6FA0CB29A9600D000F5 /* CopyFiles */ = {
@@ -92,7 +78,7 @@
 		119E13530CADF05100480BE1 /* Configure.h */ = {isa = PBXFileReference; fileEncoding = 0; lastKnownFileType = sourcecode.c.h; path = Configure.h; sourceTree = "<group>"; };
 		11E0E85C0CAB2BD600AE7980 /* MenuActions.h */ = {isa = PBXFileReference; fileEncoding = 0; lastKnownFileType = sourcecode.c.h; path = MenuActions.h; sourceTree = "<group>"; };
 		11E0E85D0CAB2BD600AE7980 /* MenuActions.m */ = {isa = PBXFileReference; fileEncoding = 0; lastKnownFileType = sourcecode.c.objc; path = MenuActions.m; sourceTree = "<group>"; };
-		11E0E85F0CAB2BDF00AE7980 /* MenuController.m */ = {isa = PBXFileReference; fileEncoding = 0; lastKnownFileType = sourcecode.c.objc; path = MenuController.m; sourceTree = "<group>"; };
+		11E0E85F0CAB2BDF00AE7980 /* MenuController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MenuController.m; sourceTree = "<group>"; };
 		11E0E8600CAB2BDF00AE7980 /* MenuController.h */ = {isa = PBXFileReference; fileEncoding = 0; lastKnownFileType = sourcecode.c.h; path = MenuController.h; sourceTree = "<group>"; };
 		13E42FB307B3F0F600E4EEF1 /* CoreData.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreData.framework; path = /System/Library/Frameworks/CoreData.framework; sourceTree = "<absolute>"; };
 		29B97316FDCFA39411CA2CEA /* main.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
@@ -102,6 +88,8 @@
 		32CA4F630368D1EE00C91783 /* woting_Prefix.pch */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = woting_Prefix.pch; sourceTree = "<group>"; };
 		8D1107310486CEB800E47090 /* Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist; path = Info.plist; sourceTree = "<group>"; };
 		8D1107320486CEB800E47090 /* woting.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = woting.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		ED00D6A212AFA42700B7A527 /* SCTextField.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SCTextField.h; sourceTree = "<group>"; };
+		ED00D6A312AFA42700B7A527 /* SCTextField.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SCTextField.m; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -166,10 +154,12 @@
 			children = (
 				32CA4F630368D1EE00C91783 /* woting_Prefix.pch */,
 				29B97316FDCFA39411CA2CEA /* main.m */,
+				ED00D6A212AFA42700B7A527 /* SCTextField.h */,
+				ED00D6A312AFA42700B7A527 /* SCTextField.m */,
 				11E0E85C0CAB2BD600AE7980 /* MenuActions.h */,
 				11E0E85D0CAB2BD600AE7980 /* MenuActions.m */,
-				11E0E85F0CAB2BDF00AE7980 /* MenuController.m */,
 				11E0E8600CAB2BDF00AE7980 /* MenuController.h */,
+				11E0E85F0CAB2BDF00AE7980 /* MenuController.m */,
 				119E13520CADF05100480BE1 /* Configure.m */,
 				119E13530CADF05100480BE1 /* Configure.h */,
 				112CC7CC0CB2B4F400D000F5 /* TplDelegate.h */,
@@ -216,8 +206,6 @@
 			);
 			buildRules = (
 			);
-			buildSettings = {
-			};
 			dependencies = (
 			);
 			name = woting;
@@ -232,15 +220,18 @@
 		29B97313FDCFA39411CA2CEA /* Project object */ = {
 			isa = PBXProject;
 			buildConfigurationList = C01FCF4E08A954540054247B /* Build configuration list for PBXProject "woting" */;
-			buildSettings = {
-			};
-			buildStyles = (
-				4A9504CCFFE6A4B311CA0CBA /* Debug */,
-				4A9504CDFFE6A4B311CA0CBA /* Release */,
-			);
+			compatibilityVersion = "Xcode 2.4";
+			developmentRegion = English;
 			hasScannedForEncodings = 1;
+			knownRegions = (
+				English,
+				Japanese,
+				French,
+				German,
+			);
 			mainGroup = 29B97314FDCFA39411CA2CEA /* woting */;
 			projectDirPath = "";
+			projectRoot = "";
 			targets = (
 				8D1107260486CEB800E47090 /* woting */,
 			);
@@ -270,6 +261,7 @@
 				11E0E8610CAB2BDF00AE7980 /* MenuController.m in Sources */,
 				119E13540CADF05100480BE1 /* Configure.m in Sources */,
 				112CC7CF0CB2B4F400D000F5 /* TplDelegate.m in Sources */,
+				ED00D6A412AFA42700B7A527 /* SCTextField.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -333,7 +325,7 @@
 				GCC_WARN_ABOUT_RETURN_TYPE = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
 				PREBINDING = NO;
-				SDKROOT = /Developer/SDKs/MacOSX10.4u.sdk;
+				SDKROOT = /Developer/SDKs/MacOSX10.5.sdk;
 			};
 			name = Debug;
 		};
@@ -343,7 +335,7 @@
 				GCC_WARN_ABOUT_RETURN_TYPE = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
 				PREBINDING = NO;
-				SDKROOT = /Developer/SDKs/MacOSX10.4u.sdk;
+				SDKROOT = /Developer/SDKs/MacOSX10.5.sdk;
 			};
 			name = Release;
 		};
